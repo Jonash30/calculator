@@ -1,0 +1,81 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    width: 300px;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 10px;
+}
+.input{
+    padding-bottom: 20px;
+    width: 100%;
+}
+input[type="text"]{
+    padding: 25px 10px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #505050;
+    font-size: 1.5rem;
+    border: none;
+    outline: none;
+    color:white;
+    text-align: right;
+    box-shadow: inset 0px 0px 3px 2px #000;
+}
+button{
+    width: 60px;
+    height: 60px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    
+}
+button:focus{
+    transform: scale(1.05);
+    transition: transform 0.1s;
+}
+.row{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(65px, 1fr));
+    gap: 2px;
+    padding-bottom: 10px;
+    justify-content: center;
+    justify-items: center;
+}
+.last-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+}
+.last-row .zero{
+    grid-column-start: 1;
+    grid-column-end: span 2;
+    width: 130px;
+    border-radius: 28px;
+}
+.first-row .btn{
+    background-color: #c7c7c7;
+}
+.row .num{
+    background-color: #505050;
+    color: white;
+}
+.row .divide, .row .multiply, .row .subtract, .row .add, .row .equal{
+    background-color: rgb(255, 174, 0);
+    color: white;
+}
