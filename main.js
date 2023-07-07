@@ -35,18 +35,19 @@
 
 const buttons = document.querySelectorAll("button");
 
-
 const calculator = {
   displayOutput: '',
   displayValue: '0',
   firstOperand: null,
   secondOperand: false,
   operator: null,
+  isResultDisplayed: false,
 }
 
 function updateDisplay(){
   const output = document.querySelector('.output')
   const display = document.getElementById('display');
+
   display.value = calculator.displayValue;
 }
 updateDisplay();
@@ -60,11 +61,15 @@ function inputDigit(digit){
     calculator.displayValue = displayValue === '0' ? digit : displayValue + digit;
   }
   
-  console.log(calculator);
 }
 
 
 function inputDecimal(dot){
+  if(calculator.secondOperand === true){
+    calculator.displayValue = '0.'
+    calculator.secondOperand = false;
+    return;
+  }
   if(!calculator.displayValue.includes(dot)){
     calculator.displayValue += dot;
   }
@@ -73,6 +78,11 @@ function inputDecimal(dot){
 function handleOperator(nextOperator){
   const { firstOperand, displayValue, operator} = calculator;
   const inputValue = parseFloat(displayValue);
+
+  if(operator && calculator.secondOperand){
+    calculator.operator = nextOperator;
+    return;
+  }
 
   if(firstOperand === null && !isNaN(inputValue)){
     calculator.firstOperand = inputValue;
@@ -85,52 +95,117 @@ function handleOperator(nextOperator){
 
   calculator.secondOperand = true;
   calculator.operator = nextOperator;
+}
 
+
+function resetCalculator(){
+  calculator.displayValue = '0';
+  calculator.firstOperand = null;
+  calculator.secondOperand = false;
+  calculator.operator = null;
   console.log(calculator);
 }
 
+function clearEntry(){
+  const { displayValue } = calculator;
+  if(displayValue !== '0' && displayValue.length > 1){
+    calculator.displayValue = displayValue.slice(0, -1);
+  } else {
+    calculator.displayValue = '0';
+  }
+  
+}
+
 function operate(firstOperand, secondOperand, operator) {
+  let result = null;
   if (operator === '+') {
-    return add(firstOperand, secondOperand);
+    result = add(firstOperand, secondOperand);
   } else if (operator === '-') {
-    return subtract(firstOperand, secondOperand);
+    result = subtract(firstOperand, secondOperand);
   } else if (operator === '×') {
-    return multiply(firstOperand, secondOperand);
+    result = multiply(firstOperand, secondOperand);
   } else if (operator === '÷') {
-    return divide(firstOperand, secondOperand);
+    result = divide(firstOperand, secondOperand);
+  } else if (operator === '%'){
+    result = percentage(firstOperand, secondOperand);
+  } else {
+    result = secondOperand;
   }
 
-  return secondOperand;
+  calculator.displayOutput = String(result);
+  return result;
 }
 
 buttons.forEach(button => {
   button.addEventListener('click', (event) =>{
     const { target } = event;
-    
+    const { value } = target;
+    button.focus();
+
     if(!target.matches('button')){
-      return
-    }
-    if(target.classList.contains('operator')){
-      handleOperator(target.value);
-      updateDisplay();
       return;
     }
-    if(target.classList.contains('all-clear')){
-      console.log('all-clear', target.value)
-      return;
+
+    switch(value){
+
+      case '+':
+      case '-':
+      case '×':
+      case '÷':
+      case '%':
+      case '=':
+        handleOperator(value);
+        calculator.isResultDisplayed = true;
+        break;
+      
+      case '.':
+        inputDecimal(value);
+        break;
+
+      case 'AC':
+        resetCalculator(value);
+        break;
+
+      case 'CE':
+        if(!calculator.isResultDisplayed){
+          clearEntry(value);
+        }
+        break;
+
+      default:
+        if(Number.isInteger(parseFloat(value))) {
+          inputDigit(value);
+        }
     }
-    if(target.classList.contains('clear')){
-      console.log('clear', target.value)
-      return;
-    }
-    if(target.classList.contains('decimal')){
-      inputDecimal(target.value)
-      updateDisplay();
-      return
-    }
-    inputDigit(target.value);
+    setTimeout(function(){
+        button.blur();
+    }, 100)
     updateDisplay();
   })
+})
+
+document.addEventListener('keydown', (event) =>{
+  const { key } = event;
+  if(key === 'Enter'){
+    handleOperator('=');
+    calculator.isResultDisplayed = true;
+    updateDisplay();
+  } else if (key === 'Backspace'){
+    if(!calculator.isResultDisplayed){
+      clearEntry();
+      updateDisplay();
+    }
+  } else if (key === '.'){
+    inputDecimal('.')
+    updateDisplay();
+  } else if (/[0-9]/.test(key)) {
+    inputDigit(key);
+    updateDisplay();
+  }else if (['+','-','*','/','%'].includes(key)){
+    handleOperator(key);
+    calculator.isResultDisplayed = true;
+    updateDisplay();
+  }
 })
 
 function add(a, b) {
@@ -149,3 +224,6 @@ function divide(a, b) {
   return a / b;
 }
 
+function percentage(a,b){
+  return (a * b) / 100;
+}
