@@ -19,21 +19,33 @@ body{
     border-radius: 20px;
     padding: 10px;
 }
-.input{
-    padding-bottom: 20px;
+.display-container{
+    margin-bottom: 20px;
     width: 100%;
-}
-input[type="text"]{
-    padding: 25px 10px;
-    width: 100%;
+    padding: 10px 15px 10px 15px;
     border-radius: 10px;
     background-color: #505050;
-    font-size: 1.5rem;
+    box-shadow: inset 0px 0px 3px 2px #000;
+    text-align: right;
+}
+.output{
+    color: white;
+    font-size: 1rem;
+    font-weight: 300;
+}
+input[type="text"]{ 
+    width: 100%;
+    background-color: transparent;
+    font-size: 2rem;
     border: none;
     outline: none;
     color:white;
-    text-align: right;
-    box-shadow: inset 0px 0px 3px 2px #000;
+    font-weight: 500; 
+    text-align: right; 
+}
+input[type="text"]::placeholder{
+    color: white;
+    font-size: 2rem;
 }
 button{
     width: 60px;
@@ -42,7 +54,6 @@ button{
     cursor: pointer;
     border-radius: 50%;
     font-size: 1.2rem;
-    
 }
 button:focus{
     transform: scale(1.05);
