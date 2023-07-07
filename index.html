@@ -12,37 +12,38 @@
 <body>
     <main>
         <div class="container">
-            <div class="input">
-                <input type="text" id="result">
+            <div class="display-container">
+                <div class="output">&nbsp;</div>
+                <input type="text" id="display" value="0" disabled>
             </div>
             <div class="row first-row">
-                <button class="btn">AC</button>
-                <button class="btn">CE</button>
-                <button class="btn">%</button>
-                <button class="btn divide" id="operator">&#247</button>
+                <button class="btn all-clear" value="AC">AC</button>
+                <button class="btn clear" value="CE">CE</button>
+                <button class="btn operator" id="operator" value="%">%</button>
+                <button class="btn divide operator" id="operator" value="÷">÷</button>
             </div>
             <div class="row second-row">
-                <button class="btn num">7</button>
-                <button class="btn num">8</button>
-                <button class="btn num">9</button>
-                <button class="btn multiply" id="operator">&#215</button>
+                <button class="num" value="7">7</button>
+                <button class="num" value="8">8</button>
+                <button class="num" value="9">9</button>
+                <button class="multiply operator" id="operator" value="×">×</button>
             </div>
             <div class="row third-row">
-                <button class="btn num">4</button>
-                <button class="btn num">5</button>
-                <button class="btn num">6</button>
-                <button class="btn subtract" id="operator">-</button>
+                <button class="num" value="4">4</button>
+                <button class="num" value="5">5</button>
+                <button class="num" value="6">6</button>
+                <button class="subtract operator" id="operator" value="-">-</button>
             </div>
             <div class="row fourth-row">
-                <button class="btn num">1</button>
-                <button class="btn num">2</button>
-                <button class="btn num">3</button>
-                <button class="btn add" id="operator">+</button>
+                <button class="num" value="1">1</button>
+                <button class="num" value="2">2</button>
+                <button class="num" value="3">3</button>
+                <button class="add operator" id="operator" value="+">+</button>
             </div>
             <div class="row last-row">
-                <button class="btn num zero">0</button>
-                <button class="btn num">.</button>
-                <button class="btn equal" id="operator">=</button>
+                <button class="num zero" value="0">0</button>
+                <button class="num decimal" value=".">.</button>
+                <button class="equal operator" id="operator" value="=">=</button>
             </div>
         </div>
     </main>
