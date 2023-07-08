@@ -1,42 +1,8 @@
-// const display = document.getElementById('display');
-// const output = document.querySelector('.output')
-// const buttons = document.querySelectorAll("button");
-
-// buttons.forEach(button => {
-//   button.addEventListener('click', () => {
-//     const buttonValue = button.dataset.value;
-//     const currentValue = display.value;
-//     const isOperator = button.classList.contains('operator');
-//     const endsWithOperator = /[\+\-\*\/]$/.test(currentValue);
-
-//     if (buttonValue === '=') {
-//       const expression = currentValue.split(' ');
-//       const num1 = parseFloat(expression[0]);
-//       const operator = expression[1];
-//       const num2 = parseFloat(expression[2]);
-
-//       if (!isNaN(num1) && !isNaN(num2) && operator) {
-//         const result = operate(num1, num2, operator);
-//         display.value = result !== null ? result : '';
-//         output.textContent = display.value;
-//       }
-//     } else {
-//         if (isOperator && endsWithOperator) {
-//           display.value = currentValue.slice(0, -1);
-//         }
-//         display.value += isOperator ? ` ${buttonValue} ` : buttonValue;
-//       }
-//   });
-// });
-
-
-
-
 
 const buttons = document.querySelectorAll("button");
 
 const calculator = {
-  displayOutput: '',
+  displayOutput: '0',
   displayValue: '0',
   firstOperand: null,
   secondOperand: false,
@@ -48,9 +14,17 @@ function updateDisplay(){
   const output = document.querySelector('.output')
   const display = document.getElementById('display');
 
+  const formatttedOutput = numberWithCommas(calculator.displayOutput);
+  output.innerHTML = `Ans = ${formatttedOutput}`;
   display.value = calculator.displayValue;
 }
 updateDisplay();
+
+function numberWithCommas(number){
+  const parts = number.toString().split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join('.');
+}
 
 function inputDigit(digit){
   const { displayValue, secondOperand } = calculator;
@@ -76,7 +50,7 @@ function inputDecimal(dot){
 }
 
 function handleOperator(nextOperator){
-  const { firstOperand, displayValue, operator} = calculator;
+  const { firstOperand, displayValue, operator } = calculator;
   const inputValue = parseFloat(displayValue);
 
   if(operator && calculator.secondOperand){
@@ -89,32 +63,34 @@ function handleOperator(nextOperator){
   } else if(operator){
     const result = operate(firstOperand, inputValue, operator);
 
-    calculator.displayValue = String(result);
     calculator.firstOperand = result;
   }
 
   calculator.secondOperand = true;
   calculator.operator = nextOperator;
+
+  
 }
 
 
 function resetCalculator(){
+  calculator.displayOutput = '0';
   calculator.displayValue = '0';
   calculator.firstOperand = null;
   calculator.secondOperand = false;
   calculator.operator = null;
-  console.log(calculator);
+  
 }
 
 function clearEntry(){
   const { displayValue } = calculator;
+
   if(displayValue !== '0' && displayValue.length > 1){
     calculator.displayValue = displayValue.slice(0, -1);
   } else {
     calculator.displayValue = '0';
   }
-  
-}
+}  
 
 function operate(firstOperand, secondOperand, operator) {
   let result = null;
@@ -122,9 +98,9 @@ function operate(firstOperand, secondOperand, operator) {
     result = add(firstOperand, secondOperand);
   } else if (operator === '-') {
     result = subtract(firstOperand, secondOperand);
-  } else if (operator === '×') {
+  } else if (operator === '*') {
     result = multiply(firstOperand, secondOperand);
-  } else if (operator === '÷') {
+  } else if (operator === '/') {
     result = divide(firstOperand, secondOperand);
   } else if (operator === '%'){
     result = percentage(firstOperand, secondOperand);
@@ -150,8 +126,8 @@ buttons.forEach(button => {
 
       case '+':
       case '-':
-      case '×':
-      case '÷':
+      case '*':
+      case '/':
       case '%':
       case '=':
         handleOperator(value);
