@@ -29,7 +29,7 @@ body{
     text-align: right;
 }
 .output{
-    color: white;
+    color: rgb(180, 180, 180);
     font-size: 1rem;
     font-weight: 300;
 }
