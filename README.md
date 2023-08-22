@@ -2,4 +2,4 @@
 
 Built using HTML CSS and JavaScript
 
-Live Preview here: https://jonash30.github.io/calculator/
+Live Preview here: https://jonashgania.github.io/calculator/
